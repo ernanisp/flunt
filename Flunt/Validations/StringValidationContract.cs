@@ -66,7 +66,7 @@ namespace Flunt.Validations
 
         public Contract AreEquals(string val, string text, string property, string message, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
         {
-            if (string.Equals(val != text, comparisonType))
+            if (!val.Equals(text, comparisonType))
                 AddNotification(property, message);
 
             return this;
@@ -74,7 +74,7 @@ namespace Flunt.Validations
 
         public Contract AreNotEquals(string val, string text, string property, string message, StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
         {
-            if (string.Equals(val == text, comparisonType))
+            if (val.Equals(text, comparisonType))
                 AddNotification(property, message);
 
             return this;
@@ -122,6 +122,28 @@ namespace Flunt.Validations
             return Matchs(text, pattern, property, message);
         }
 
+        public Contract HasMinLengthIfNotNullOrEmpty(string text, int min, string property, string message)
+        {
+            if (!string.IsNullOrEmpty(text) && text.Length < min)
+                AddNotification(property, message);
 
+            return this;
+        }
+
+        public Contract HasMaxLengthIfNotNullOrEmpty(string text, int max, string property, string message)
+        {
+            if (!string.IsNullOrEmpty(text) && text.Length > max)
+                AddNotification(property, message);
+
+            return this;
+        }
+
+        public Contract HasExactLengthIfNotNullOrEmpty(string text, int len, string property, string message)
+        {
+            if (!string.IsNullOrEmpty(text) && text.Length != len)
+                AddNotification(property, message);
+
+            return this;
+        }
     }
 }
